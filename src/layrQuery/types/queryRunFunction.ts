@@ -1,0 +1,1 @@
+export type queryRunFunction = (requestData: any) => any
