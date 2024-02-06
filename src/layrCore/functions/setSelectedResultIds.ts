@@ -1,4 +1,4 @@
-import {QuerySchema} from "../queryBundle/querySchema";
+import {QuerySchema} from "../src/querySchema";
 import {MrkLib} from "../../lib/MrkLib";
 import {QueryObject} from "../../layrQuery/types/queryObject";
 import {layrCoreStoreUpdater} from "../LayrCoreStore";

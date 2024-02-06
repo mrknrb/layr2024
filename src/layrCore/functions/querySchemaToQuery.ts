@@ -1,6 +1,6 @@
 import {ElemGroupDynamic} from "../elems/elemGroup/ElemGroupDynamic";
 import {crudEnums} from "../../layrQuery/types/crudEnums";
-import {QuerySchema} from "../queryBundle/querySchema";
+import {QuerySchema} from "../src/querySchema";
 import {MrkLib} from "../../lib/MrkLib";
 import {layrQueryCommands} from "../../layrQuery/layrQueryCommands";
 import {QueryObject} from "../../layrQuery/types/queryObject";

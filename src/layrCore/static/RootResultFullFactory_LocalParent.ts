@@ -12,7 +12,7 @@ import {ElemGroupSave} from "../elems/elemGroup/ElemGroupSave";
 import {ElemGroupDynamic} from "../elems/elemGroup/ElemGroupDynamic";
 import {MrkLib} from "../../lib/MrkLib";
 import {DBStoreDocNames} from "../DBStoreDocNames";
-import {QuerySchema} from "../queryBundle/querySchema";
+import {QuerySchema} from "../src/querySchema";
 import {querySourceLocalRequestSchema} from "../../layrQuery/querySources/local/querySourceLocalRequestSchema";
 
 // --- A localra mentett elem-ek parentje, így tudod kezelni és szerkeszteni ---

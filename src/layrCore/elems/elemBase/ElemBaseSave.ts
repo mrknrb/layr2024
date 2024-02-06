@@ -1,9 +1,9 @@
-import {elemDataSourceLink} from "../../queryBundle/elemDataSourceLink";
+import {elemDataSourceLink} from "../../src/elemDataSourceLink";
 import {ElemTypes} from "../ElemTypes";
 import {omap} from "../../../lib/omap";
-import {QuerySchema} from "../../queryBundle/querySchema";
+import {QuerySchema} from "../../src/querySchema";
 import {crudEnums} from "../../../layrQuery/types/crudEnums";
-import {SrcSave} from "../../queryBundle/srcSave";
+import {SrcSave} from "../../src/srcSave";
 
 export interface ElemBaseSave {
     // elemSaveId: igy lehet majd ra hivatkozni az elempathal. az omapban ott van

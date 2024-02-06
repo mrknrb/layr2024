@@ -1,5 +1,5 @@
 import {objectModificationDifference} from "./objectModificationCompare";
-import {SrcSave} from "../queryBundle/srcSave";
+import {SrcSave} from "../src/srcSave";
 
 export function srcQueryTaskGenerato(diffArray: objectModificationDifference[], srcSave: SrcSave) {
     //minden differencere kikeresni a megfelelo srcpartot es az input data pathet berakni
