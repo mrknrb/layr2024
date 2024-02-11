@@ -5,7 +5,6 @@ import {MrkLib} from "../../../../lib/MrkLib";
 
 export default function VerticalBarMenuElemButton(props: { data: VerticalBar_MenuElemData }) {
 
-    console.log(props)
     return (
         <>
 

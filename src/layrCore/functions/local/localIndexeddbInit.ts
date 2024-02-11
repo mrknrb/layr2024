@@ -1,4 +1,4 @@
-import {querySourceLocalRequestSchema} from "../../../layrQuery/querySources/local/querySourceLocalRequestSchema";
+import {querySourceLocalRequestType} from "../../../layrQuery/querySources/local/querySourceLocalRequestType";
 import {querySourceLocalSubTypeEnums} from "../../../layrQuery/querySources/local/querySourceLocalSubTypeEnums";
 import {DBStoreDocNames} from "../../DBStoreDocNames";
 import {crudEnums} from "../../../layrQuery/types/crudEnums";
@@ -9,7 +9,7 @@ import {QueryEnums} from "../../../layrQuery/types/queryEnums";
 export async function localIndexeddbInit() {
 
 
-    let localreqstore: querySourceLocalRequestSchema = {
+    let localreqstore: querySourceLocalRequestType = {
         subType: querySourceLocalSubTypeEnums.store,
         dbId: DBStoreDocNames.dbLayr,
         crudEnum: crudEnums.create,

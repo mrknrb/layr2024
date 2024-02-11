@@ -1,18 +1,18 @@
 import {omf} from "../../../lib/omf";
 import {querySourceLocalSubTypeEnums} from "./querySourceLocalSubTypeEnums";
-import {querySourceLocalRequestSchema} from "./querySourceLocalRequestSchema";
+import {querySourceLocalRequestType} from "./querySourceLocalRequestType";
 import {string} from "zod";
 import Dexie from "dexie";
 
-export let QuerySourceLocalSubTypesUpdate = omf.setLot(omf.create<(data: querySourceLocalRequestSchema) => any, string>(), [{
+export let QuerySourceLocalSubTypesUpdate = omf.setLot(omf.create<(data: querySourceLocalRequestType) => any, string>(), [{
     key: querySourceLocalSubTypeEnums.database,
-    object: async (arg: querySourceLocalRequestSchema) => {
+    object: async (arg: querySourceLocalRequestType) => {
 
 
     }
 }, {
     key: querySourceLocalSubTypeEnums.store,
-    object: async (arg: querySourceLocalRequestSchema) => {
+    object: async (arg: querySourceLocalRequestType) => {
         const myPromise = new Promise((resolve, reject) => {
 
         })
@@ -20,9 +20,15 @@ export let QuerySourceLocalSubTypesUpdate = omf.setLot(omf.create<(data: querySo
     }
 }, {
     key: querySourceLocalSubTypeEnums.doc,
-    object: async (arg: querySourceLocalRequestSchema) => {
+    object: async (arg: querySourceLocalRequestType) => {
+
+    }
+}, {
+    key: querySourceLocalSubTypeEnums.docObject,
+    object: async (arg: querySourceLocalRequestType) => {
 
         return new Promise((resolve, reject) => {
+            console.log(arg)
             // Open the database
             var request = window.indexedDB.open(arg.dbId);
 
@@ -41,8 +47,8 @@ export let QuerySourceLocalSubTypesUpdate = omf.setLot(omf.create<(data: querySo
                     var existingData = getRequest.result;
 
                     // Update the document with the new data
-                    for (var prop in updatedData) {
-                        existingData[prop] = updatedData[prop];
+                    for (var prop in arg.newData) {
+                        existingData[prop] = arg.newData[prop];
                     }
 
                     // Put the updated document back into the object store
@@ -80,14 +86,6 @@ export let QuerySourceLocalSubTypesUpdate = omf.setLot(omf.create<(data: querySo
 
 
     }
-}, {
-    key: querySourceLocalSubTypeEnums.docObject,
-    object: async (arg: querySourceLocalRequestSchema) => {
-        return new Promise((resolve, reject) => {
-            // Open a connection to the IndexedDB database
-
-        });
 
 
-    }
 }])

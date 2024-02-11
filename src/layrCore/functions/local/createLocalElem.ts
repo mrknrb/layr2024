@@ -1,4 +1,4 @@
-import {querySourceLocalRequestSchema} from "../../../layrQuery/querySources/local/querySourceLocalRequestSchema";
+import {querySourceLocalRequestType} from "../../../layrQuery/querySources/local/querySourceLocalRequestType";
 import {querySourceLocalSubTypeEnums} from "../../../layrQuery/querySources/local/querySourceLocalSubTypeEnums";
 import {layrCoreStore} from "../../LayrCoreStore";
 import {crudEnums} from "../../../layrQuery/types/crudEnums";
@@ -12,7 +12,7 @@ import {ElemBaseSave} from "../../elems/elemBase/ElemBaseSave";
 
 // ---Letrehoz egy local layr page-et---
 export async function createLocalElem() {
-    let localreqdoc: querySourceLocalRequestSchema<ElemBaseSave> = {
+    let localreqdoc: querySourceLocalRequestType<ElemBaseSave> = {
         subType: querySourceLocalSubTypeEnums.doc,
         dbId: DBStoreDocNames.dbLayr,
         storeId: DBStoreDocNames.storeUser,
@@ -22,12 +22,12 @@ export async function createLocalElem() {
             elemFormat: {},
             srcSaveList: omf.set(omf.create(), "0", {
                 resultType: ResultTypes.layrElem,
-                srcParts:
+                srcActionList:
                     [{
-                        path: [], crudEnum: crudEnums.create, querySchema: "test"
+                        queryRootPath: [], srcActionName: crudEnums.create, resultRootPath: [], querySchema: {}
 
                     }, {
-                        path: [], crudEnum: crudEnums.update, querySchema: "test"
+                        queryRootPath: [], srcActionName: crudEnums.update, resultRootPath: [], querySchema: {}
 
                     }
                     ]

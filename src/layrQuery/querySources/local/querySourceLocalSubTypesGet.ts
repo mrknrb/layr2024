@@ -1,12 +1,12 @@
 import {omf} from "../../../lib/omf";
 import {querySourceLocalSubTypeEnums} from "./querySourceLocalSubTypeEnums";
-import {querySourceLocalRequestSchema} from "./querySourceLocalRequestSchema";
+import {querySourceLocalRequestType} from "./querySourceLocalRequestType";
 import {string} from "zod";
 import Dexie from "dexie";
 
-export let QuerySourceLocalSubTypesGet = omf.setLot(omf.create<(data: querySourceLocalRequestSchema) => any, string>(), [{
+export let QuerySourceLocalSubTypesGet = omf.setLot(omf.create<(data: querySourceLocalRequestType) => any, string>(), [{
     key: querySourceLocalSubTypeEnums.database,
-    object: async (arg: querySourceLocalRequestSchema) => {
+    object: async (arg: querySourceLocalRequestType) => {
 
         const request = await indexedDB.databases();
 
@@ -16,7 +16,7 @@ export let QuerySourceLocalSubTypesGet = omf.setLot(omf.create<(data: querySourc
     }
 }, {
     key: querySourceLocalSubTypeEnums.store,
-    object: async (arg: querySourceLocalRequestSchema) => {
+    object: async (arg: querySourceLocalRequestType) => {
         const myPromise = new Promise((resolve, reject) => {
             if (!arg.dbId) return
             const openRequest = indexedDB.open(arg.dbId)
@@ -36,7 +36,7 @@ export let QuerySourceLocalSubTypesGet = omf.setLot(omf.create<(data: querySourc
     }
 }, {
     key: querySourceLocalSubTypeEnums.doc,
-    object: async (arg: querySourceLocalRequestSchema) => {
+    object: async (arg: querySourceLocalRequestType) => {
 
         return new Promise((resolve, reject) => {
             // Open the database
@@ -80,7 +80,7 @@ export let QuerySourceLocalSubTypesGet = omf.setLot(omf.create<(data: querySourc
     }
 }, {
     key: querySourceLocalSubTypeEnums.docObject,
-    object: async (arg: querySourceLocalRequestSchema) => {
+    object: async (arg: querySourceLocalRequestType) => {
         return new Promise((resolve, reject) => {
             // Open a connection to the IndexedDB database
             const request = indexedDB.open(arg.dbId);

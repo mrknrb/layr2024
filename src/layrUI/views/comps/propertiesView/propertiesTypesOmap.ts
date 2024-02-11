@@ -6,30 +6,51 @@ import VerticalBarMenuElemSelectDropDown
     from "../../../general/viewElements/VerticalBar/VerticalBarMenuElemSelectDropDown";
 import {PropertiesTypes} from "./propertiesTypes";
 import {layrCoreStore} from "../../../../layrCore/LayrCoreStore";
+import {ResultFull} from "../../../../layrCore/ResultData/ResultFull";
+import {ElemBaseSave} from "../../../../layrCore/elems/elemBase/ElemBaseSave";
+import {ElemBaseDynamic} from "../../../../layrCore/elems/elemBase/ElemBaseDynamic";
+import {srcUpdateRun} from "../../../../layrCore/src/srcUpdateRun";
 
-export let PropertiesTypesOmap = omf.setLot<{ getData: () => string, setData: (data: string) => void }, PropertiesTypes>(omf.create(), [{
+export let PropertiesTypesOmap = omf.setLot<{ getData: () => { data: any, setArgs: ResultFull<ElemBaseSave, ElemBaseDynamic> }, setData: (setArgs: ResultFull<ElemBaseSave, ElemBaseDynamic>, newData: any) => void }, PropertiesTypes>(omf.create(), [{
     key: PropertiesTypes.ResultFull, object: {
         getData: () => {
-            return JSON.stringify(layrCoreStore.resultFullDataArray.find(value => {
+            let setArgs = layrCoreStore.resultFullDataArray.find(value => {
                 return value.resultId === layrCoreStore.selectedResultIds[0]
-            }))
+            })
+
+            let data = layrCoreStore.resultFullDataArray.find(value => {
+                return value.resultId === layrCoreStore.selectedResultIds[0]
+            })
+            return {data, setArgs}
         },
         setData: (data) => {
+
         }
     }
 }, {
     key: PropertiesTypes.ResultSave, object: {
         getData: () => {
-            return JSON.stringify(layrCoreStore.resultFullDataArray.find(value => {
-                return value.resultId === layrCoreStore.selectedResultIds[0]
-            })?.resultSave)
-        },
-        setData: (data) => {
-            let result = layrCoreStore.resultFullDataArray.find(value => {
+            let setArgs = layrCoreStore.resultFullDataArray.find(value => {
                 return value.resultId === layrCoreStore.selectedResultIds[0]
             })
 
 
+            let data = layrCoreStore.resultFullDataArray.find(value => {
+                return value.resultId === layrCoreStore.selectedResultIds[0]
+            })?.resultSave
+            return {data, setArgs}
+        },
+        setData: (setArgs, newData) => {
+            srcUpdateRun(setArgs, newData)
+
+
+            let result: ResultFull<ElemBaseSave, ElemBaseDynamic> = layrCoreStore.resultFullDataArray.find(value => {
+                return value.resultId === layrCoreStore.selectedResultIds[0]
+
+
+            })
+            if (!result) return
+            result.resultSave.srcPointers
         }
     }
 }])

@@ -6,6 +6,8 @@ import {menuOptionsStatic} from "../../../menu/MenuOptionsStatic";
 import {layrUIStore} from "../../../LayrUIStore";
 import {layrCoreStore} from "../../../../layrCore/LayrCoreStore";
 import {layrCoreCommands} from "../../../../layrCore/LayrCoreCommands";
+import {JsonDataTree} from "../../../general/viewElements/TreeBrowser/JsonDataTree";
+import TreeBrowser from "../../../general/viewElements/TreeBrowser/TreeBrowser";
 
 export default function PageMapListElem(props: { groupElemFull: ResultFull<ElemGroupSave, ElemGroupDynamic> }) {
 
@@ -13,8 +15,63 @@ export default function PageMapListElem(props: { groupElemFull: ResultFull<ElemG
         return value.parentResultId === props.groupElemFull.resultId
 
     })
+    let i = JsonTreeDataMaker("0")
+
     return (
-        <div class="bg-amber-600   ">
+        <div class="   ">
+            <Show when={i}>
+                <TreeBrowser jsonTree={[i]}></TreeBrowser>
+
+            </Show>
+
+
+        </div>
+    )
+}
+
+function JsonTreeDataMaker(startResultFullId: string) {
+    let startResult = layrCoreStore.resultFullDataArray.find(value => {
+        return value.resultId === startResultFullId;
+    });
+
+    if (!startResult) return;
+
+    return loop(startResult);
+
+    function loop(resultActual?: ResultFull<any, any>) {
+        if (!resultActual) return;
+        let jsonTreeActual: JsonDataTree<ResultFull<any, any>> = {
+            name: resultActual.resultId, onClickArgs: resultActual,
+            children: [], onClick: (dataTree, onClickArgs) => {
+                layrCoreCommands.setSelectedResultIds([onClickArgs.resultId])
+
+
+            }
+        };
+        let childResults = layrCoreStore.resultFullDataArray.filter(value => {
+            return value.parentResultId === resultActual.resultId;
+        });
+
+        if (childResults.length === 0) return jsonTreeActual;
+
+        jsonTreeActual.children = [];
+
+        childResults.forEach(childResult => {
+
+
+            let child = loop(childResult);
+            if (child) {
+                jsonTreeActual.children.push(child);
+            }
+        });
+
+        return jsonTreeActual;
+    }
+
+
+}
+
+/*
             <div class="bg-amber-600   font-bold mrkHoverClick  w-full" onClick={() => {
                 layrCoreCommands.setSelectedResultIds([props.groupElemFull.resultId])
 
@@ -30,9 +87,6 @@ export default function PageMapListElem(props: { groupElemFull: ResultFull<ElemG
                             </>
                         )
                     }}
-                </For></div>
-
-
-        </div>
-    )
-}
+                </For>
+            </div>
+*/

@@ -9,7 +9,6 @@ import {layrCoreStore} from "../layrCore/LayrCoreStore";
 import loki from 'lokijs';
 import {findJsonPath} from "../layrCore/functions/findElemTree/findJsonPath";
 import {layrCoreCommands} from "../layrCore/LayrCoreCommands";
-import BackPanel from "../layrUI2/panels/BackPanel";
 import MenuOptions from "./menu/MenuOptions";
 import {layrUIStoreCommands} from "./LayrUIStoreCommands";
 import {getUrlDocId} from "./functions/getUrlDocId";
@@ -49,7 +48,7 @@ export default function LayrUIMain() {
     setTimeout(() => {
         loadLocalRootElem(getUrlDocId())
     }, 500)
-
+    document.addEventListener('contextmenu', event => event.preventDefault());
     return (
         //uj, grid stilus
         /*    <>  <MenuBar></MenuBar>

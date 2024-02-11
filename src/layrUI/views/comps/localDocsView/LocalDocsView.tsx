@@ -6,20 +6,36 @@ import {FaSolidPlus} from 'solid-icons/fa'
 import VerticalBar from "../../../general/viewElements/VerticalBar/VerticalBar";
 import {VerticalBar_MenuElemData} from "../../../general/viewElements/VerticalBar/VerticalBar_MenuElemData";
 import {VerticalBar_MenuElemTypes} from "../../../general/viewElements/VerticalBar/VerticalBar_MenuElemTypes";
+import TreeBrowser from "../../../general/viewElements/TreeBrowser/TreeBrowser";
+import {JsonDataTree} from "../../../general/viewElements/TreeBrowser/JsonDataTree";
 
 export default function LocalDocsView() {
     const [docIds, setdocIds] = createSignal([]);
+    const [getJsonTree, setJsonTree] = createSignal<JsonDataTree<any>[]>([]);
+
 
     refresh()
 
     function refresh() {
-
+        let a: JsonDataTree[] = []
         layrCoreCommands.getAllLocalUserStoreDocIds().then(value => {
 
             if (!value) return
-            setdocIds(value)
+
+            value.forEach((value2, index) => {
+
+                a.push({
+                    name: value2, children: [], onClickArgs: value2, onClick: (jsonDataActual, onClickArgs) => {
+                        setUrlDocId(onClickArgs)
+
+                        layrCoreCommands.setSelectedResultIds(["0"])
 
 
+                    }
+                })
+
+            })
+            setJsonTree(a)
         })
     }
 
@@ -49,27 +65,19 @@ export default function LocalDocsView() {
 
     ]
 
+
     return (
-        <div class="mrkScroll bg-green-800 flex-col">
+        <div class="mrkScroll  flex-col ">
             <VerticalBar MenuElems={menuElems} settings={{}}></VerticalBar>
 
 
             <div class=" ">
-                <For each={docIds()}>
-                    {(docId) => {
-                        return (
-                            <div class=" bg-blue-400 mrkHoverClick" onclick={() => {
-                                setUrlDocId(docId)
 
-                                layrCoreCommands.setSelectedResultIds(["0"])
+                <TreeBrowser jsonTree={getJsonTree()}></TreeBrowser>
 
-                            }}>
-                                {docId}
-                            </div>
-                        )
-                    }}
-                </For>
+
             </div>
         </div>
     )
 }
+//

@@ -1,14 +1,14 @@
 import {omf} from "../../../lib/omf";
 import {querySourceLocalSubTypeEnums} from "./querySourceLocalSubTypeEnums";
-import {querySourceLocalRequestSchema} from "./querySourceLocalRequestSchema";
+import {querySourceLocalRequestType} from "./querySourceLocalRequestType";
 import {string} from "zod";
 import Dexie from "dexie";
 import * as localforage from "localforage";
 import {MrkLib} from "../../../lib/MrkLib";
 
-export let QuerySourceLocalSubTypesCreate = omf.setLot(omf.create<(data: querySourceLocalRequestSchema) => any, querySourceLocalSubTypeEnums>(), [{
+export let QuerySourceLocalSubTypesCreate = omf.setLot(omf.create<(data: querySourceLocalRequestType) => any, querySourceLocalSubTypeEnums>(), [{
     key: querySourceLocalSubTypeEnums.database,
-    object: async (arg: querySourceLocalRequestSchema) => {
+    object: async (arg: querySourceLocalRequestType) => {
 
         return new Promise((resolve, reject) => {
             const request = indexedDB.open(arg.newData, 1);
@@ -37,7 +37,7 @@ export let QuerySourceLocalSubTypesCreate = omf.setLot(omf.create<(data: querySo
     }
 }, {
     key: querySourceLocalSubTypeEnums.store,
-    object: async (arg: querySourceLocalRequestSchema) => {
+    object: async (arg: querySourceLocalRequestType) => {
 
         const request = await indexedDB.databases();
         return new Promise<void>((resolve, reject) => {
@@ -73,7 +73,7 @@ export let QuerySourceLocalSubTypesCreate = omf.setLot(omf.create<(data: querySo
     }
 }, {
     key: querySourceLocalSubTypeEnums.doc,
-    object: async (arg: querySourceLocalRequestSchema) => {
+    object: async (arg: querySourceLocalRequestType) => {
         return new Promise((resolve, reject) => {
             const request = window.indexedDB.open(arg.dbId);
 

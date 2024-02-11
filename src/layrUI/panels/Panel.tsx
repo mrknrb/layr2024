@@ -8,7 +8,7 @@ import {layrUIStore} from "../LayrUIStore";
 export default function Panel(props: { PanelType: PanelEnums }) {
     let panelClass = () => {
         if (props.PanelType === PanelEnums.leftPanel) {
-            return "border-r-4 flex-row "
+            return "border-r-4  flex-row "
         } else if (props.PanelType === PanelEnums.rightPanel) {
             return "border-l-4 flex-row-reverse  "
         } else if (props.PanelType === PanelEnums.middlePanel) {
@@ -17,9 +17,9 @@ export default function Panel(props: { PanelType: PanelEnums }) {
     }
     let panelSideClass = () => {
         if (props.PanelType === PanelEnums.leftPanel) {
-            return "flex-col "
+            return "flex-col border-r-2"
         } else if (props.PanelType === PanelEnums.rightPanel) {
-            return "flex-col "
+            return "flex-col border-l-2"
         } else if (props.PanelType === PanelEnums.middlePanel) {
             return "flex "
         }
@@ -28,7 +28,7 @@ export default function Panel(props: { PanelType: PanelEnums }) {
     return (
         <div class={"mrkDefault  border-gray-900 flex-shrink  " + panelClass()}
              style={"max-width:" + omf.get(layrUIStore.panels, props.PanelType)?.panelSize + "%"}>
-            <div class={"relative  bg-gray-700 " + panelSideClass()}>
+            <div class={"relative  bg-gray-700 border-gray-900 " + panelSideClass()}>
                 <For each={omf.toArray(layrUIStore.views).objectsKeys}>
                     {(view) => {
                         return (
@@ -42,7 +42,7 @@ export default function Panel(props: { PanelType: PanelEnums }) {
                 </For>
             </div>
 
-            <div class="mrkDefault bg-gray-800 flex-col ">
+            <div class="mrkDefault bg-gray-700 flex-col  ">
 
                 <For each={omf.toArray(layrUIStore.views).objectsKeys}>
                     {(view) => {
@@ -52,7 +52,7 @@ export default function Panel(props: { PanelType: PanelEnums }) {
                                 <Show when={view.object.panel === props.PanelType && view.object.visible}>
 
                                     <div
-                                        class="mrkDefault "
+                                        class="mrkDefault border-b-4 border-gray-900"
                                     >{omf.get(ViewsOMap, view.key)}
                                     </div>
 

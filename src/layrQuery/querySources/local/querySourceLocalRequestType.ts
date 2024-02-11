@@ -1,7 +1,7 @@
 import {querySourceLocalSubTypeEnums} from "./querySourceLocalSubTypeEnums";
 import {crudEnums} from "../../types/crudEnums";
 
-export type querySourceLocalRequestSchema<dataType> = {
+export type querySourceLocalRequestType<dataType = any> = {
     crudEnum: crudEnums
     subType: querySourceLocalSubTypeEnums
     dbId?: string

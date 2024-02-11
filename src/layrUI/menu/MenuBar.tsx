@@ -12,7 +12,7 @@ export default function MenuBar() {
 
     return (
         <>
-            <div class=" relative   bg-gray-700   border-b-4  border-gray-900 flex pl-4 ">
+            <div class=" relative   bg-gray-500   border-b-4  border-gray-900 flex pl-4 ">
 
                 <For each={Object.values(MenuButtonEnum)}>
                     {(menuButtonName) => {

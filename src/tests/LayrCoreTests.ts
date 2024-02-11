@@ -33,11 +33,11 @@ export let layrCoreTests = {
                     JSONPath: [],
                     querySchema: {
                         sourceType: QueryEnums.local, requestDataStatic: {
-                            crudEnum: crudEnums.get, storeId: "", docId: "", dbId: "",
+                            srcActionType: crudEnums.get, storeId: "", docId: "", dbId: "",
                             subType: querySourceLocalSubTypeEnums.docObject
                         }
                     },
-                    crudEnum: crudEnums.get,
+                    srcActionType: crudEnums.get,
                 })
 
             }

@@ -1,22 +1,37 @@
-import {Accessor, createEffect, createSignal, Setter, Show} from "solid-js";
-import GroupElemUI from "../pageView/GroupElemUI";
+import {Accessor, createSignal, Show} from "solid-js";
 import {layrCoreStore} from "../../../../layrCore/LayrCoreStore";
-import MonacoSolid from "../../../general/monacoEditor/MonacoSolid";
 import * as monaco from "monaco-editor";
 import {VerticalBar_MenuElemData} from "../../../general/viewElements/VerticalBar/VerticalBar_MenuElemData";
 import {VerticalBar_MenuElemTypes} from "../../../general/viewElements/VerticalBar/VerticalBar_MenuElemTypes";
-import {VsRefresh} from "solid-icons/vs";
-import {FaSolidPlus} from "solid-icons/fa";
-import {layrCoreCommands} from "../../../../layrCore/LayrCoreCommands";
 import VerticalBar from "../../../general/viewElements/VerticalBar/VerticalBar";
 import {PropertiesTypesOmap} from "./propertiesTypesOmap";
 import {omf} from "../../../../lib/omf";
 import {PropertiesTypes} from "./propertiesTypes";
 import {RiDeviceSaveLine} from 'solid-icons/ri'
 import {TypedEvent} from "../../../../lib/TypedEvents";
+import {PropertyDisplayTypes} from "./propertyDisplayTypes";
+import {createEditor} from "./CreateEditor";
+import PropertiesDisplayTree from "./PropertiesDisplayTree";
+import {ResultFull} from "../../../../layrCore/ResultData/ResultFull";
+import {ElemBaseSave} from "../../../../layrCore/elems/elemBase/ElemBaseSave";
+import {ElemBaseDynamic} from "../../../../layrCore/elems/elemBase/ElemBaseDynamic";
 
 export default function PropertiesView() {
     let [getPropertyType, setPropertyType] = createSignal(PropertiesTypes.ResultFull)
+    let [getPropertyDisplayType, setPropertyDisplayType] = createSignal(PropertyDisplayTypes.tree)
+
+    let saveEvent: TypedEvent<any> = new TypedEvent<any>()
+
+    // let [getEditorText, setEditorText] = createSignal(omf.get(PropertiesTypesOmap, getPropertyType()).getData())
+
+
+    let editor = createEditor(getPropertyType, saveEvent, save)
+
+    function save(data: object) {
+
+
+        omf.get(PropertiesTypesOmap, getPropertyType())?.setData(omf.get(PropertiesTypesOmap, getPropertyType()).getData().setArgs, data)
+    }
 
     let menuElems: VerticalBar_MenuElemData[] = [
         {
@@ -39,50 +54,61 @@ export default function PropertiesView() {
                 }
             ]
         }, {
+            menuElemType: VerticalBar_MenuElemTypes.selectDropDown,
+            // selectedOptionNameSignalGet: getPropertyType,
+            // selectedOptionNameSignalSet: setPropertyType,
+            menuElemName: "View",
+            menuElemOptions: [
+                {
+                    optionName: PropertyDisplayTypes.tree,
+                    optionFunction: () => {
+                        setPropertyDisplayType(PropertyDisplayTypes.tree)
+                    }
+                },
+                {
+                    optionName: PropertyDisplayTypes.text,
+                    optionFunction: () => {
+                        setPropertyDisplayType(PropertyDisplayTypes.text)
+
+                    }
+                }
+            ]
+        }, {
             menuElemType: VerticalBar_MenuElemTypes.button,
             // selectedOptionNameSignalGet: getPropertyType,
             // selectedOptionNameSignalSet: setPropertyType,
-            menuElemName: "PropertyType",
+            menuElemName: "save",
             menuElemIcon: <RiDeviceSaveLine/>, menuElemFunction: () => {
+
                 saveEvent.emit(undefined)
             }
         }
 
     ]
-
-    let saveEvent: TypedEvent<any> = new TypedEvent<any>()
     return (
-        <div class="mrkScroll bg-green-800 flex-col grow relative">
+        <div class="mrkDefault  flex-col grow relative">
             <VerticalBar MenuElems={menuElems} settings={{}}></VerticalBar>
 
-            {monacoElem(getPropertyType, saveEvent)}
             <Show when={layrCoreStore.selectedResultIds.length === 1}>
+                <Show when={getPropertyDisplayType() === PropertyDisplayTypes.text}>
 
+                    {() => {
+                        let a = omf.get(PropertiesTypesOmap, getPropertyType())?.getData()?.data
+                        if (!a) return
+                        editor.editorObject.getModel()?.setValue(JSON.stringify(a));
+                        editor.editorObject?.getAction('editor.action.formatDocument')?.run()
+                        return editor.editorJSX
+                    }}
+
+                </Show>
+                <Show when={getPropertyDisplayType() === PropertyDisplayTypes.tree}>
+                    {PropertiesDisplayTree(getPropertyType, saveEvent)}
+
+                </Show>
 
             </Show>
         </div>
     )
-}
-
-function monacoElem(getPropertyType: Accessor<string>, saveEvent: TypedEvent<any>) {
-    let monacoElem = document.createElement("div")
-    monacoElem.style.backgroundColor = "blue"
-    monacoElem.style.height = "100%"
-
-    let editor = monaco.editor.create(monacoElem, {
-        value: omf.get(PropertiesTypesOmap, getPropertyType()).getData(),
-        language: 'json',
-        automaticLayout: true,
-        theme: "vs-dark", lineNumbers: "on"
-    });
-    editor.getAction('editor.action.formatDocument')?.run()
-    saveEvent.on(event => {
-        debugger
-
-        omf.get(PropertiesTypesOmap, getPropertyType()).setData(editor.getValue())
-    })
-    // editor.onDidChangeModelContent((event) => {  });
-    return monacoElem
 }
 
 /* {monacoElem}

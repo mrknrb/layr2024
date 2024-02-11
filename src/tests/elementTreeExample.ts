@@ -25,11 +25,11 @@ export let elementTreeExample: ElemGroupDynamic = {
             JSONPath: [],
             querySchema: {
                 sourceType: QueryEnums.local, requestDataStatic: {
-                    crudEnum: crudEnums.get, storeId: rootIds.storeId, docId: rootIds.docId, dbId: rootIds.dbId,
+                    srcActionType: crudEnums.get, storeId: rootIds.storeId, docId: rootIds.docId, dbId: rootIds.dbId,
                     subType: querySourceLocalSubTypeEnums.docObject
                 }
             },
-            crudEnum: crudEnums.get,
+            srcActionType: crudEnums.get,
         })
 
     }

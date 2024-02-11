@@ -1,8 +1,8 @@
-import {LayrStoreType} from "../../LayrCoreStore";
+import {LayrCoreStoreType} from "../../LayrCoreStore";
 import {ResultFull} from "../../ResultData/ResultFull";
 import {ElemGroupDynamic} from "../../elems/elemGroup/ElemGroupDynamic";
 
-export function findElementById(store: LayrStoreType, elemId: string) {
+export function findElementById(store: LayrCoreStoreType, elemId: string) {
     if (!store.resultFullDataArray) return
     if (store.resultFullDataArray?.elemId === elemId) return store.resultFullDataArray
     loop(store.resultFullDataArray)

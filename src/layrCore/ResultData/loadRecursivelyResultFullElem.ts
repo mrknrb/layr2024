@@ -15,11 +15,13 @@ export async function loadRecursivelyResultFullElem<resultSaveType extends ElemB
 
     if (!resultFull) return
     await loadResultFullElem(resultFull)
+
     let childResults = layrCoreStore.resultFullDataArray.filter(value => {
         return value.parentResultId === resultFull.resultId
 
     })
     childResults.forEach(value => {
+
         loadRecursivelyResultFullElem(value)
 
     })

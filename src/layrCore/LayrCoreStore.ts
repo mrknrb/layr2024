@@ -10,14 +10,14 @@ import {localIndexeddbInit} from "./functions/local/localIndexeddbInit";
 import {loadLocalRootElem} from "./functions/local/loadLocalRootElem";
 import {createEffect} from "solid-js";
 
-export type LayrStoreType = {
+export type LayrCoreStoreType = {
 
     RootDocId: string,
     resultFullDataArray: ResultFull<any, any>[]
     selectedResultIds: string[]
 }
 
-let LayrStoreDefault: LayrStoreType = {
+let LayrCoreStoreDefault: LayrCoreStoreType = {
 
     RootDocId: "",//lehet local file, lehet sima url es lehet indexeddb doc
     //Egy root frame van, az osszes tobbi egy olyan frame, ami be van csak toltve.
@@ -26,7 +26,7 @@ let LayrStoreDefault: LayrStoreType = {
 }
 
 
-export const [layrCoreStore, layrCoreStoreSet] = createStore(LayrStoreDefault)
+export const [layrCoreStore, layrCoreStoreSet] = createStore(LayrCoreStoreDefault)
 //createEffect(() => {
 
 //loadLocalElem(layrCoreStore.RootDocId)

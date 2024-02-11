@@ -2,7 +2,7 @@
 
 # A Fő fájlok a következőek:
 
---------- Query  [](../src/layrQuery/layrQueryCommands.ts)
+--------- Query  [i](src/layrCore/functions/elemRefresh.ts)
 
 --------- Core
 

@@ -1,8 +1,8 @@
-import {ResultFull} from "../ResultData/ResultFull";
-import {ElemBaseSave} from "../elems/elemBase/ElemBaseSave";
-import {ElemBaseDynamic} from "../elems/elemBase/ElemBaseDynamic";
-import {layrCoreStore} from "../LayrCoreStore";
-import {omf} from "../../lib/omf";
+import {ResultFull} from "../../ResultData/ResultFull";
+import {ElemBaseSave} from "../../elems/elemBase/ElemBaseSave";
+import {ElemBaseDynamic} from "../../elems/elemBase/ElemBaseDynamic";
+import {layrCoreStore} from "../../LayrCoreStore";
+import {omf} from "../../../lib/omf";
 
 type DiffType = 'create' | 'delete' | 'update';
 

@@ -1,14 +1,24 @@
-import GroupElemUI from "./GroupElemUI";
+import GroupElemUI from "./elemUIs/GroupElem/GroupElemUI";
 import {layrCoreCommands} from "../../../../layrCore/LayrCoreCommands";
-import {Show} from "solid-js";
+import {createSignal, Show} from "solid-js";
+import MenuOptions from "../../../menu/MenuOptions";
+import {ElemGroupDynamic} from "../../../../layrCore/elems/elemGroup/ElemGroupDynamic";
+import {ElemGroupSave} from "../../../../layrCore/elems/elemGroup/ElemGroupSave";
+import {ResultFull} from "../../../../layrCore/ResultData/ResultFull";
+import BaseElemUI from "./elemUIs/BaseElem/BaseElemUI";
 
 export default function PageView() {
-    let root = layrCoreCommands.getRootElem()
+    let [getRoot, setRoot] = createSignal<ResultFull<ElemGroupSave, ElemGroupDynamic>>()
+
+    layrCoreCommands.getRootElem().then(value => {
+        setRoot(value)
+
+    })
 
     return (
         <div class="mrkScroll bg-green-800 ">
-            <Show when={root}>
-                <GroupElemUI groupElemFull={root}></GroupElemUI>
+            <Show when={getRoot()}>
+                <BaseElemUI resultFull={getRoot()}></BaseElemUI>
             </Show>
 
 

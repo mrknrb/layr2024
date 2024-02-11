@@ -636,6 +636,33 @@ export class MrkLib {
     static mergeObjects<T, U>(obj1: T, obj2: U): T & U {
         return {...obj1, ...obj2};
     }
+
+    static checkIfObject(yourVariable: any) {
+        if (
+            typeof yourVariable === 'object' &&
+            !Array.isArray(yourVariable) &&
+            yourVariable !== null
+        ) {
+            return true
+        } else {
+            return false
+        }
+
+
+    }
+
+    static checkIfObjectOrArray(yourVariable: any) {
+        if (
+            typeof yourVariable === 'object' &&
+            yourVariable !== null
+        ) {
+            return true
+        } else {
+            return false
+        }
+
+
+    }
 }
 
 export let mousePositionMrk: MouseEvent;

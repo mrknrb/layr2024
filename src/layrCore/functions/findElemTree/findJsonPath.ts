@@ -6,7 +6,7 @@ import {ResultFull} from "../../ResultData/ResultFull";
 import {ElemGroupDynamic} from "../../elems/elemGroup/ElemGroupDynamic";
 
 export function findJsonPath(JSONObject: any, JSONPath: string[]) {
-
+//kikeresi a field erteket a json fileban a path alapjan
     let foundElem: any | undefined = undefined
     elemLoop(JSONObject, JSONPath)
 

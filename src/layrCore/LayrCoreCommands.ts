@@ -7,25 +7,37 @@ import {localIndexeddbInit} from "./functions/local/localIndexeddbInit";
 import {getRootElem} from "./ResultData/getRootElem";
 import {getAllLocalUserStoreDocIds} from "./functions/getAllLocalUserStoreDocIds";
 import {setSelectedResultIds} from "./functions/setSelectedResultIds";
-import {pathToObjectConverter} from "./functions/pathToObjectConverter";
-import {objectModificationCompare} from "./functions/objectModificationCompare";
-import {srcQueryTaskGenerator} from "./functions/srcQueryTaskGenerator";
+import {pathToObjectConverter} from "./functions/generic/pathToObjectConverter";
+import {objectModificationCompare} from "./functions/generic/objectModificationCompare";
+import {srcUpdateTasksGenerator} from "./functions/srcUpdateTasksGenerator";
 
 export let layrCoreCommands = {
 
-    //Init
+    //yx Init
     localIndexeddbInit,
-    //local
-    createLocalElem,
+
+    //yx load page
     loadLocalRootElem,
-    getAllLocalUserStoreDocIds,
-    objectModificationCompare, srcQueryTaskGenerator,
-    setSelectedResultIds,
+    createLocalElem,
     getRootElem,
-    pathToObjectConverter,
+
+    //yx running page elems
     elemRefresh,
+
+    //yx other functions
+    setSelectedResultIds,
+    getAllLocalUserStoreDocIds,
+    pathToObjectConverter,
     querySchemaRun,
-    querySchemaToQuery
+    querySchemaToQuery,
+
+    //yx unused
+    objectModificationCompare: objectModificationCompare,
+    srcQueryTaskGenerator: srcUpdateTasksGenerator,
+
+    //yx uncategorised
+
+
 }
 layrCoreCommands.pathToObjectConverter([{path: ["a", "b", "c"], object: {zz: "uj"}}, {
     path: ["o", "k"],

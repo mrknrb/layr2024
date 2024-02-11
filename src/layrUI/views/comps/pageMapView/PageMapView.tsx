@@ -7,7 +7,7 @@ import VerticalBar from "../../../general/viewElements/VerticalBar/VerticalBar";
 import {
     VerticalBar_MenuElemData
 } from "../../../general/viewElements/VerticalBar/VerticalBar_MenuElemData";
-import GroupElemUI from "../pageView/GroupElemUI";
+import GroupElemUI from "../pageView/elemUIs/GroupElem/GroupElemUI";
 import PageMapListElem from "./PageMapListElem";
 
 export default function PageMapView() {
@@ -15,11 +15,11 @@ export default function PageMapView() {
 
 
     return (
-        <div class="relative mrkScroll bg-green-800 flex-col">
+        <div class="relative mrkScroll  flex-col">
             <VerticalBar MenuElems={[]} settings={{}}></VerticalBar>
 
 
-            <div class="mrkScroll bg-green-800 ">
+            <div class="mrkScroll  ">
                 <Show when={root}>
                     <PageMapListElem groupElemFull={root}></PageMapListElem>
 
