@@ -24,7 +24,7 @@ export class MrkLib {
         function dragMouseDown(e: MouseEvent) {
             e = e || window.event;
             e.preventDefault();
-
+            e.stopPropagation();
             // get the mouse cursor position at startup:
             posStartX = e.clientX;
             posStartY = e.clientY;

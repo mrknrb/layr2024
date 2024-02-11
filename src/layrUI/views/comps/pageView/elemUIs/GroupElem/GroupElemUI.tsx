@@ -37,7 +37,8 @@ export default function GroupElemUI(props: { resultFull: ResultFull<ElemGroupSav
 
     return (
         <div class={"   relative  overflow-auto " + classString}
-             style={"min-width:40px;min-height:40px;height:100%;width:100%" + styleString} ref={touchScrollDiv}
+             style={"min-width:40px;min-height:40px;height:100%;width:100%;   background: repeating-linear-gradient(135deg, #838383 , #2d2d2d 250px, #838383 500px) local;" + styleString}
+             ref={touchScrollDiv}
              onLoad={event => {
                  //  MrkLib.grabInit(event.target.outerHTML)
 

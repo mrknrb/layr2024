@@ -16,7 +16,7 @@ export default function VerticalBar(props: { settings: {}, MenuElems: VerticalBa
         <>
 
 
-            <div class=" relative   bg-gray-500   border-b-2  border-gray-900 flex pl-4 h7">
+            <div class=" relative   bg-gray-500   border-b-2  border-gray-900 flex pl-4 h-7">
 
                 <For each={props.MenuElems}>
                     {(menuelem) => {
