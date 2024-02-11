@@ -15,7 +15,7 @@ export function createEditor(getPropertyType: Accessor<PropertiesTypes>, saveEve
         value: "",
         language: 'json',
         automaticLayout: true,
-        theme: "vs-dark", lineNumbers: "on"
+        theme: "vs-dark", lineNumbers: "on", minimap: {enabled: false}
     });
     saveEvent.on(event => {
 

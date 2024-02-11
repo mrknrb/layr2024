@@ -27,7 +27,7 @@ export default function Panel(props: { PanelType: PanelEnums }) {
 
     return (
         <div class={"mrkDefault  border-gray-900 flex-shrink  " + panelClass()}
-             style={"max-width:" + omf.get(layrUIStore.panels, props.PanelType)?.panelSize + "%"}>
+             style={"max-width:" + omf.get(layrUIStore.panels, props.PanelType)?.panelSize + "px"}>
             <div class={"relative  bg-gray-700 border-gray-900 " + panelSideClass()}>
                 <For each={omf.toArray(layrUIStore.views).objectsKeys}>
                     {(view) => {
