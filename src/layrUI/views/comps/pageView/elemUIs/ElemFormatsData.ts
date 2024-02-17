@@ -5,13 +5,19 @@ import {ElemFormat} from "../elemFormat";
 import {ElemFormatCategoryEnums} from "./ElemFormatCategoryEnums";
 import {ElemTypes} from "../../../../../layrCore/elems/ElemTypes";
 
-export const ElemFormatsData: omap<{ function: (args: string) => any, formatCategory: ElemFormatCategoryEnums, onlySpecificElems?: omap<boolean, ElemTypes> }, ElemFormatsEnums> = omf.setLot(omf.create(), [
+export const ElemFormatsData: omap<{ setFunction: (args: string) => any, getFunction: (args: string) => any, formatCategory: ElemFormatCategoryEnums, onlySpecificElems?: omap<boolean, ElemTypes> }, ElemFormatsEnums> = omf.setLot(omf.create(), [
     {
         key: ElemFormatsEnums.top,
         object: {
             formatCategory: ElemFormatCategoryEnums.style,
-            function: (args: string) => {
-                return "top:" + args + "px"
+            getFunction: (args: string) => {
+                return "top:" + (Number(args) * 24).toString() + "px"
+
+
+            }, setFunction: (args: string) => {
+
+
+                return (Number(args) / 24).toString()
 
 
             }
@@ -20,8 +26,14 @@ export const ElemFormatsData: omap<{ function: (args: string) => any, formatCate
         key: ElemFormatsEnums.left,
         object: {
             formatCategory: ElemFormatCategoryEnums.style,
-            function: (args: string) => {
-                return "left:" + args + "px"
+            getFunction: (args: string) => {
+                return "left:" + (Number(args) * 24).toString() + "px"
+
+
+            }, setFunction: (args: string) => {
+
+
+                return (Number(args) / 24).toString()
 
 
             }
@@ -30,8 +42,14 @@ export const ElemFormatsData: omap<{ function: (args: string) => any, formatCate
         key: ElemFormatsEnums.width,
         object: {
             formatCategory: ElemFormatCategoryEnums.style,
-            function: (args: string) => {
-                return "width:" + args + "px"
+            getFunction: (args: string) => {
+                return "width:" + (Number(args) * 24).toString() + "px"
+
+
+            }, setFunction: (args: string) => {
+
+
+                return (Number(args) / 24).toString()
 
 
             }
@@ -40,8 +58,14 @@ export const ElemFormatsData: omap<{ function: (args: string) => any, formatCate
         key: ElemFormatsEnums.height,
         object: {
             formatCategory: ElemFormatCategoryEnums.style,
-            function: (args: string) => {
-                return "height:" + args + "px"
+            getFunction: (args: string) => {
+                return "height:" + (Number(args) * 24).toString() + "px"
+
+
+            }, setFunction: (args: string) => {
+
+
+                return (Number(args) / 24).toString()
 
 
             }
@@ -50,7 +74,7 @@ export const ElemFormatsData: omap<{ function: (args: string) => any, formatCate
         key: ElemFormatsEnums.bgColor,
         object: {
             formatCategory: ElemFormatCategoryEnums.style,
-            function: (args: string) => {
+            getFunction: (args: string) => {
                 return "background-color:" + args
 
 
@@ -61,7 +85,7 @@ export const ElemFormatsData: omap<{ function: (args: string) => any, formatCate
         object: {
             onlySpecificElems: omf.setLot(omf.create(), [{key: ElemTypes.text, object: true}]),
             formatCategory: ElemFormatCategoryEnums.style,
-            function: (args: string) => {
+            getFunction: (args: string) => {
                 return "font-size:" + args
 
 
@@ -71,7 +95,7 @@ export const ElemFormatsData: omap<{ function: (args: string) => any, formatCate
         key: ElemFormatsEnums.fullScreen,
         object: {
             formatCategory: ElemFormatCategoryEnums.style,
-            function: (args: string) => {
+            getFunction: (args: string) => {
                 return ` position: absolute;
     top: 0px;
     bottom: 0px;

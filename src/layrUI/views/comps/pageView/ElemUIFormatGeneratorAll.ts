@@ -20,10 +20,10 @@ export function elemUIFormatGeneratorAll(elemFormats: omap<string>, elemType?: E
         if (!data.onlySpecificElems && elemType === undefined || data.onlySpecificElems && elemType && omf.get(data.onlySpecificElems, elemType)) {
 
 
-            omf.set(omf.get(elemFormatBundle, data.formatCategory), key, data.function(object))
+            omf.set(omf.get(elemFormatBundle, data.formatCategory), key, data.getFunction(object))
         }
         //omf.get(elemFormatBundle, data.ElemFormatCategoryEnums)[key] = data.elemFormatData
-       
+
     })
 
     return elemFormatBundle

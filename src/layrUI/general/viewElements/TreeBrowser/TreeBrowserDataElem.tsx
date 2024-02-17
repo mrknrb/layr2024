@@ -12,7 +12,7 @@ export default function TreeBrowserDataElem(props: { jsonTree: JsonDataTree<any>
                 {(jsonTreeChild, index) => {
                     return (
 
-                        <div class="pl-2 border-l border-t-2 ">
+                        <div class={"pl-2 border-l border-t-2 "} style={"" + jsonTreeChild.backgroundColor}>
                             <div class=" flex-row flex mrkHoverClick " onClick={() => {
 
                                 if (jsonTreeChild.onClick) jsonTreeChild.onClick(jsonTreeChild, jsonTreeChild.onClickArgs)

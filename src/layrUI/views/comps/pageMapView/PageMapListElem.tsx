@@ -48,6 +48,7 @@ function JsonTreeDataMaker(startResultFullId: string) {
 
             }
         };
+
         let childResults = layrCoreStore.resultFullDataArray.filter(value => {
             return value.parentResultId === resultActual.resultId;
         });

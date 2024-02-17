@@ -203,6 +203,52 @@ export class MrkLib {
         return resizeEvent;
     }
 
+    static resizeElementCornerHtml(
+        mainElement: HTMLElement,
+        cornerElement: HTMLElement,
+        gridSize: number = 1
+    ) {
+        let resizeEvent = new TypedEvent();
+
+        let startX, startY, startWidth, startHeight;
+
+        cornerElement.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            startX = e.clientX;
+            startY = e.clientY;
+            startWidth = parseInt(document.defaultView.getComputedStyle(mainElement).width, 10);
+            startHeight = parseInt(document.defaultView.getComputedStyle(mainElement).height, 10);
+
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        });
+
+        function handleMouseMove(e) {
+            const deltaX = e.clientX - startX;
+            const deltaY = e.clientY - startY;
+
+            // Calculate the new width and height based on the grid size
+            const newWidth = roundToGrid(startWidth + deltaX, gridSize);
+            const newHeight = roundToGrid(startHeight + deltaY, gridSize);
+
+            mainElement.style.width = `${newWidth}px`;
+            mainElement.style.height = `${newHeight}px`;
+        }
+
+        function handleMouseUp() {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+            resizeEvent.emit("")
+        }
+
+        function roundToGrid(value: number, gridSize: number): number {
+            return Math.round(value / gridSize) * gridSize;
+        }
+
+        return resizeEvent
+    }
+
+
     static grabInit(elementDiv: HTMLDivElement) {
         let pos = {top: 0, left: 0, x: 0, y: 0};
 

@@ -5,6 +5,7 @@ import {QuerySchema} from "../../src/querySchema";
 import {crudEnums} from "../../../layrQuery/types/crudEnums";
 import {SrcSave} from "../../src/srcSave";
 import {DefaultPointerEnums} from "../../functions/generic/DefaultPointerEnums";
+import {ElemFormatsEnums} from "../../../layrUI/views/comps/pageView/elemUIs/elemFormatsEnums";
 
 export interface ElemBaseSave {
     // elemSaveId: igy lehet majd ra hivatkozni az elempathal. az omapban ott van
@@ -12,5 +13,5 @@ export interface ElemBaseSave {
     srcPointers?: omap<string, string | DefaultPointerEnums>//minden elemtypenak lehet tobb srcje, pl a groupnak a child elemsframes es a list data src
     srcSaveList?: omap<SrcSave>//srcSaveID
 
-    elemFormat?: omap<string, string>
+    elemFormat?: omap<string, string | ElemFormatsEnums>
 }
