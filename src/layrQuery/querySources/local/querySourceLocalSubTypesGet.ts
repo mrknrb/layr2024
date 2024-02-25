@@ -7,9 +7,16 @@ import Dexie from "dexie";
 export let QuerySourceLocalSubTypesGet = omf.setLot(omf.create<(data: querySourceLocalRequestType) => any, string>(), [{
     key: querySourceLocalSubTypeEnums.database,
     object: async (arg: querySourceLocalRequestType) => {
+        /* try {
+             const databases = await Dexie.getDatabaseNames();
+             return databases;
+         } catch (error) {
+             console.log('Error getting database names:', error);
+             return undefined
+         }*/
 
-        const request = await indexedDB.databases();
 
+        const request = await indexedDB.databases()
         return request.map(dbInfo => dbInfo.name)
 
 
@@ -17,6 +24,24 @@ export let QuerySourceLocalSubTypesGet = omf.setLot(omf.create<(data: querySourc
 }, {
     key: querySourceLocalSubTypeEnums.store,
     object: async (arg: querySourceLocalRequestType) => {
+        /* const {dbId} = arg;
+
+         if (!dbId) return;
+
+         try {
+             const db = await myDexieDB.open();
+
+             const transaction = db.transaction(db.tables, 'readonly');
+             const stores = Array.from(transaction.storeNames);
+
+             await db.close();
+
+             return stores;
+         } catch (error) {
+             throw error;
+         }*/
+
+
         const myPromise = new Promise((resolve, reject) => {
             if (!arg.dbId) return
             const openRequest = indexedDB.open(arg.dbId)
@@ -29,6 +54,7 @@ export let QuerySourceLocalSubTypesGet = omf.setLot(omf.create<(data: querySourc
             };
 
             openRequest.onerror = (event) => {
+
                 reject(event.target.error);
             };
         })
@@ -40,7 +66,6 @@ export let QuerySourceLocalSubTypesGet = omf.setLot(omf.create<(data: querySourc
 
         return new Promise((resolve, reject) => {
             // Open the database
-            console.log(arg)
             const request = window.indexedDB.open(arg.dbId)
 
             // Handle success
@@ -59,6 +84,7 @@ export let QuerySourceLocalSubTypesGet = omf.setLot(omf.create<(data: querySourc
                 // Handle success
                 getAllRequest.onsuccess = (event) => {
                     const documents = event.target.result
+
                     resolve(documents)
                 }
 
@@ -82,6 +108,7 @@ export let QuerySourceLocalSubTypesGet = omf.setLot(omf.create<(data: querySourc
     key: querySourceLocalSubTypeEnums.docObject,
     object: async (arg: querySourceLocalRequestType) => {
         return new Promise((resolve, reject) => {
+
             // Open a connection to the IndexedDB database
             const request = indexedDB.open(arg.dbId);
 
@@ -114,11 +141,13 @@ export let QuerySourceLocalSubTypesGet = omf.setLot(omf.create<(data: querySourc
                 };
 
                 getRequest.onerror = (event) => {
+                    db.close()
                     reject(`Error retrieving document: ${event.target.error}`);
                 };
             };
 
             request.onupgradeneeded = (event) => {
+
                 reject('Database upgrade is needed');
 
             };

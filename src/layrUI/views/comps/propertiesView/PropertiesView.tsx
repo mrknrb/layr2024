@@ -1,4 +1,4 @@
-import {Accessor, createSignal, Show} from "solid-js";
+import {Accessor, createEffect, createSignal, Show} from "solid-js";
 import {layrCoreStore} from "../../../../layrCore/LayrCoreStore";
 import * as monaco from "monaco-editor";
 import {VerticalBar_MenuElemData} from "../../../general/viewElements/VerticalBar/VerticalBar_MenuElemData";
@@ -25,12 +25,14 @@ export default function PropertiesView() {
     // let [getEditorText, setEditorText] = createSignal(omf.get(PropertiesTypesOmap, getPropertyType()).getData())
 
 
-    let editor = createEditor(getPropertyType, saveEvent, save)
+    let editor = createEditor(saveEvent, save)
 
     function save(data: object) {
+        omf.get(PropertiesTypesOmap, getPropertyType()).getData().then(value => {
+            omf.get(PropertiesTypesOmap, getPropertyType())?.setData(value.setArgs, data)
+        })
 
 
-        omf.get(PropertiesTypesOmap, getPropertyType())?.setData(omf.get(PropertiesTypesOmap, getPropertyType()).getData().setArgs, data)
     }
 
     let menuElems: VerticalBar_MenuElemData[] = [
@@ -85,20 +87,24 @@ export default function PropertiesView() {
         }
 
     ]
+    createEffect(() => {
+
+        omf.get(PropertiesTypesOmap, getPropertyType())?.getData().then(value => {
+
+            if (value.data === undefined) return
+            editor.editorObject.getModel()?.setValue(JSON.stringify(value.data));
+            editor.editorObject?.getAction('editor.action.formatDocument')?.run()
+        })
+
+    })
     return (
         <div class="mrkDefault  flex-col grow relative">
             <VerticalBar MenuElems={menuElems} settings={{}}></VerticalBar>
 
-            <Show when={layrCoreStore.selectedResultIds.length === 1}>
+            <Show when={layrCoreStore.selectedElems.length === 1}>
                 <Show when={getPropertyDisplayType() === PropertyDisplayTypes.text}>
 
-                    {() => {
-                        let a = omf.get(PropertiesTypesOmap, getPropertyType())?.getData()?.data
-                        if (!a) return
-                        editor.editorObject.getModel()?.setValue(JSON.stringify(a));
-                        editor.editorObject?.getAction('editor.action.formatDocument')?.run()
-                        return editor.editorJSX
-                    }}
+                    {editor.editorJSX}
 
                 </Show>
                 <Show when={getPropertyDisplayType() === PropertyDisplayTypes.tree}>

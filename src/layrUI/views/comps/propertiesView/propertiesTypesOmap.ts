@@ -10,47 +10,47 @@ import {ResultFull} from "../../../../layrCore/ResultData/ResultFull";
 import {ElemBaseSave} from "../../../../layrCore/elems/elemBase/ElemBaseSave";
 import {ElemBaseDynamic} from "../../../../layrCore/elems/elemBase/ElemBaseDynamic";
 import {srcUpdateRun} from "../../../../layrCore/src/srcUpdateRun";
+import {omap} from "../../../../lib/omap";
 
-export let PropertiesTypesOmap = omf.setLot<{ getData: () => { data: any, setArgs: ResultFull<ElemBaseSave, ElemBaseDynamic> }, setData: (setArgs: ResultFull<ElemBaseSave, ElemBaseDynamic>, newData: any) => void }, PropertiesTypes>(omf.create(), [{
+export let PropertiesTypesOmap = omf.setLot<{ getData: () => Promise<{ data: any, setArgs: ResultFull<omap<ElemBaseSave>, omap<ElemBaseDynamic>> }>, setData: (setArgs: ResultFull<omap<ElemBaseSave>, omap<ElemBaseDynamic>>, newData: any) => Promise<any> }, PropertiesTypes>(omf.create(), [{
     key: PropertiesTypes.ResultFull, object: {
-        getData: () => {
+        getData: async () => {
             let setArgs = layrCoreStore.resultFullDataArray.find(value => {
-                return value.resultId === layrCoreStore.selectedResultIds[0]
+                return value.resultId === layrCoreStore.selectedElems[0]?.resultId
             })
 
             let data = layrCoreStore.resultFullDataArray.find(value => {
-                return value.resultId === layrCoreStore.selectedResultIds[0]
+                return value.resultId === layrCoreStore.selectedElems[0]?.resultId
             })
             return {data, setArgs}
         },
-        setData: (data) => {
+        setData: async (data) => {
 
         }
     }
 }, {
     key: PropertiesTypes.ResultSave, object: {
-        getData: () => {
+        getData: async () => {
             let setArgs = layrCoreStore.resultFullDataArray.find(value => {
-                return value.resultId === layrCoreStore.selectedResultIds[0]
+                return value.resultId === layrCoreStore.selectedElems[0]?.resultId
             })
 
 
             let data = layrCoreStore.resultFullDataArray.find(value => {
-                return value.resultId === layrCoreStore.selectedResultIds[0]
+                return value.resultId === layrCoreStore.selectedElems[0]?.resultId
             })?.resultSave
             return {data, setArgs}
         },
-        setData: (setArgs, newData) => {
-            srcUpdateRun(setArgs, newData)
-
-
-            let result: ResultFull<ElemBaseSave, ElemBaseDynamic> = layrCoreStore.resultFullDataArray.find(value => {
-                return value.resultId === layrCoreStore.selectedResultIds[0]
-
+        setData: async (setArgs, newData) => {
+            let resultFullParent = layrCoreStore.resultFullDataArray.find(value => {
+                return value.resultId === setArgs.parentResultId
 
             })
-            if (!result) return
-            result.resultSave.srcPointers
+            if (!resultFullParent) return
+
+            await srcUpdateRun(resultFullParent.resultId, setArgs.parentElemId, setArgs.parentSrcId, newData)
+
+
         }
     }
 }])

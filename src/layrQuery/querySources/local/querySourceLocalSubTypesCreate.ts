@@ -58,14 +58,15 @@ export let QuerySourceLocalSubTypesCreate = omf.setLot(omf.create<(data: querySo
                     autoIncrement: true
                 });
                 db.close()
-                resolve(db)
+                resolve()
             }
             OpenReq.onsuccess = function (e) {
                 e.target.result.close()
+                resolve()
             }
             OpenReq.onerror = function (e) {
                 e.target?.result?.close()
-
+                reject(e.target.error);
             }
         });
 
@@ -90,11 +91,13 @@ export let QuerySourceLocalSubTypesCreate = omf.setLot(omf.create<(data: querySo
                 }
 
                 addRequest.onerror = (event) => {
+                    db.close();
                     reject(event.target.error);
                 };
 
                 transaction.oncomplete = () => {
                     db.close();
+                    resolve()
                 };
             };
 

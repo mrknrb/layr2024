@@ -28,7 +28,7 @@ export let QuerySourceLocalSubTypesUpdate = omf.setLot(omf.create<(data: querySo
     object: async (arg: querySourceLocalRequestType) => {
 
         return new Promise((resolve, reject) => {
-            console.log(arg)
+            
             // Open the database
             var request = window.indexedDB.open(arg.dbId);
 

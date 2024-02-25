@@ -1,5 +1,6 @@
 import {TypedEvent} from './TypedEvents';
 import {omap} from './omap'
+import {omf} from "./omf";
 
 export class MrkLib {
     static dragElement(
@@ -20,6 +21,11 @@ export class MrkLib {
         } else {
             draggingElement.addEventListener('mousedown', dragMouseDown);
         }
+        draggingElement.addEventListener('click', (e) => {
+            e.stopPropagation()
+            e.preventDefault()
+
+        });
 
         function dragMouseDown(e: MouseEvent) {
             e = e || window.event;
@@ -38,6 +44,7 @@ export class MrkLib {
         function elementDrag(e: MouseEvent) {
             e = e || window.event;
             e.preventDefault();
+            e.stopPropagation();
             // calculate the new cursor position:
             posNewDistanceX = e.clientX - posStartX;
             posNewDistanceY = e.clientY - posStartY;
@@ -214,6 +221,7 @@ export class MrkLib {
 
         cornerElement.addEventListener('mousedown', (e) => {
             e.preventDefault();
+            e.stopPropagation()
             startX = e.clientX;
             startY = e.clientY;
             startWidth = parseInt(document.defaultView.getComputedStyle(mainElement).width, 10);
@@ -221,6 +229,11 @@ export class MrkLib {
 
             document.addEventListener('mousemove', handleMouseMove);
             document.addEventListener('mouseup', handleMouseUp);
+        });
+        cornerElement.addEventListener('click', (e) => {
+            e.preventDefault();
+            e.stopPropagation()
+
         });
 
         function handleMouseMove(e) {
@@ -235,7 +248,8 @@ export class MrkLib {
             mainElement.style.height = `${newHeight}px`;
         }
 
-        function handleMouseUp() {
+        function handleMouseUp(e: MouseEvent) {
+            e.stopPropagation()
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
             resizeEvent.emit("")
@@ -709,6 +723,41 @@ export class MrkLib {
 
 
     }
+
+    static arrayToOmap<arrayType>(array: arrayType[], indexCallback: (arrayValue: arrayType) => string) {
+        let indexedArray: omap<arrayType> = omf.create({})
+        array.forEach(value => {
+            omf.set(indexedArray, indexCallback(value), value)
+
+
+        })
+        return indexedArray
+
+    }
+
+//lehet felesleges
+    static manualClickHandler(targetElement: HTMLElement) {
+        let clickEvent = new TypedEvent<MouseEvent>()
+        let isMouseDown = false;
+        const handleMouseDown = () => {
+            isMouseDown = true;
+        };
+
+        const handleMouseUp = (e) => {
+            if (isMouseDown) {
+                // Perform click action here
+                clickEvent.emit(e)
+                // Reset the mouse state
+                isMouseDown = false;
+            }
+        };
+
+        // Bind event handlers to the target element
+        targetElement.addEventListener('mousedown', handleMouseDown);
+        targetElement.addEventListener('mouseup', handleMouseUp);
+        return clickEvent
+    }
+
 }
 
 export let mousePositionMrk: MouseEvent;

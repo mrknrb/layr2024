@@ -2,23 +2,31 @@ import {querySourceLocalRequestType} from "../../../layrQuery/querySources/local
 import {querySourceLocalSubTypeEnums} from "../../../layrQuery/querySources/local/querySourceLocalSubTypeEnums";
 import {DBStoreDocNames} from "../../DBStoreDocNames";
 import {crudEnums} from "../../../layrQuery/types/crudEnums";
-import {layrQueryCommands} from "../../../layrQuery/layrQueryCommands";
+import {layrQueryRun} from "../../../layrQuery/layrQueryRun";
 import {QueryEnums} from "../../../layrQuery/types/queryEnums";
 
 // --- Letrehozza a local indexeddb adatokat, ha nem leteznek ---
 export async function localIndexeddbInit() {
 
+    let stores = [
+        DBStoreDocNames.storeUser,
+        DBStoreDocNames.storeNotifications
 
-    let localreqstore: querySourceLocalRequestType = {
-        subType: querySourceLocalSubTypeEnums.store,
-        dbId: DBStoreDocNames.dbLayr,
-        crudEnum: crudEnums.create,
-        newData: DBStoreDocNames.storeUser
+    ]
+
+    for (const storesKey in stores) {
+        let localreqstore: querySourceLocalRequestType = {
+            subType: querySourceLocalSubTypeEnums.store,
+            dbId: DBStoreDocNames.dbLayr,
+            crudEnum: crudEnums.create,
+            newData: stores[storesKey]
+        }
+        await layrQueryRun({
+            type: QueryEnums.local,
+            requestData: localreqstore
+        })
+
     }
-    await layrQueryCommands.run({
-        type: QueryEnums.local,
-        requestData: localreqstore
-    })
 
 
 }

@@ -16,9 +16,7 @@ export default function MenuButton(props: { menuText: string }) {
                  event.preventDefault()
                  event.stopPropagation()
                  layrUIStoreUpdater.updateStore((storeCopy, storeUpdatedResult) => {
-                     console.log(event)
-                     // @ts-ignore
-                     console.log(event.target.offsetHeight)
+
                      storeCopy.activeMenuButtonData.name = props.menuText
                      // @ts-ignore
                      storeCopy.activeMenuButtonData.offsetLeft = event.target.offsetLeft

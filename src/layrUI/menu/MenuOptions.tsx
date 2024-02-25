@@ -5,6 +5,9 @@ import {layrUIStore, layrUIStoreUpdater} from "../LayrUIStore";
 export default function MenuOptions() {
 
     document.body.addEventListener("click", ev => {
+
+        if (layrUIStore.activeMenuButtonData.name === "") return
+
         layrUIStoreUpdater.updateStore((storeCopy, storeUpdatedResult) => {
 
             storeCopy.activeMenuButtonData.name = ""
@@ -15,7 +18,7 @@ export default function MenuOptions() {
     return (
 
         <Show when={layrUIStore.activeMenuButtonData.name}>
-            <div class={"absolute flex-col w-fit  bg-gray-700 z-40 m-1 "}
+            <div class={"absolute flex-col w-fit  bg-gray-700 z-40 m-1 border-2 border-gray-900"}
                  style={{
                      left: layrUIStore.activeMenuButtonData.offsetLeft + "px",
                      top: layrUIStore.activeMenuButtonData.offsetHeight + "px"
@@ -25,7 +28,7 @@ export default function MenuOptions() {
                         return (
                             <>
                                 <Show when={menuOption.menuButton === layrUIStore.activeMenuButtonData.name}>
-                                    <div class="text-gray-300 p-1 mrkHoverClick font-bold select-none">
+                                    <div class="text-gray-300 p-1 mrkHoverClick  select-none">
                                         {menuOption.menuOptionName}
 
 

@@ -1,4 +1,4 @@
-import {layrQueryCommands} from "../../layrQuery/layrQueryCommands";
+import {layrQueryRun} from "../../layrQuery/layrQueryRun";
 import {QueryEnums} from "../../layrQuery/types/queryEnums";
 import {QueryObject} from "../../layrQuery/types/queryObject";
 import {querySourceLocalRequestType} from "../../layrQuery/querySources/local/querySourceLocalRequestType";
@@ -8,7 +8,7 @@ import {crudEnums} from "../../layrQuery/types/crudEnums";
 
 export async function getAllLocalUserStoreDocIds() {
 
-    let query: QueryObject<querySourceLocalRequestType<any>>
+    let query: QueryObject<querySourceLocalRequestType>
     query = {
         type: QueryEnums.local,
         requestData: {
@@ -19,6 +19,6 @@ export async function getAllLocalUserStoreDocIds() {
         }
 
     }
-    let result = await layrQueryCommands.run(query)
+    let result = await layrQueryRun(query)
     return result
 }

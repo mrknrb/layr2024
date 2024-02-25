@@ -8,9 +8,9 @@ import {ElemTypes} from "../../../../layrCore/elems/ElemTypes";
 
 export function elemUIFormatGeneratorAll(elemFormats: omap<string>, elemType?: ElemTypes): omap<omap<any, ElemFormatsEnums>, ElemFormatCategoryEnums> {
 
-    let elemFormatBundle = omf.create<omap<any, ElemFormatsEnums>, ElemFormatCategoryEnums>()
+    let elemFormatBundle = omf.create<omap<string, ElemFormatsEnums>, ElemFormatCategoryEnums>()
     for (let elemFormatEnumsKey in ElemFormatCategoryEnums) {
-        omf.set(elemFormatBundle, elemFormatEnumsKey, {})
+        omf.set(elemFormatBundle, elemFormatEnumsKey, omf.create())
     }
 
 

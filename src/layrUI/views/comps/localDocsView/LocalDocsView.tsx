@@ -8,6 +8,9 @@ import {VerticalBar_MenuElemData} from "../../../general/viewElements/VerticalBa
 import {VerticalBar_MenuElemTypes} from "../../../general/viewElements/VerticalBar/VerticalBar_MenuElemTypes";
 import TreeBrowser from "../../../general/viewElements/TreeBrowser/TreeBrowser";
 import {JsonDataTree} from "../../../general/viewElements/TreeBrowser/JsonDataTree";
+import {getAllLocalUserStoreDocIds} from "../../../../layrCore/functions/getAllLocalUserStoreDocIds";
+import {setSelectedIds} from "../../../../layrCore/functions/setSelectedIds";
+import {createDefaultLocalElem} from "../../../../layrCore/functions/local/createDefaultLocalElem";
 
 export default function LocalDocsView() {
     const [docIds, setdocIds] = createSignal([]);
@@ -18,7 +21,7 @@ export default function LocalDocsView() {
 
     function refresh() {
         let a: JsonDataTree[] = []
-        layrCoreCommands.getAllLocalUserStoreDocIds().then(value => {
+        getAllLocalUserStoreDocIds().then(value => {
 
             if (!value) return
 
@@ -28,7 +31,7 @@ export default function LocalDocsView() {
                     name: value2, children: [], onClickArgs: value2, onClick: (jsonDataActual, onClickArgs) => {
                         setUrlDocId(onClickArgs)
 
-                        layrCoreCommands.setSelectedResultIds(["0"])
+                        setSelectedIds([{resultId: "0"}])
 
 
                     }
@@ -50,7 +53,7 @@ export default function LocalDocsView() {
         {
             menuElemType: VerticalBar_MenuElemTypes.button,
             menuElemName: "add", menuElemIcon: <FaSolidPlus/>, menuElemFunction: () => {
-                layrCoreCommands.createLocalElem()
+                createDefaultLocalElem()
                 refresh()
 
             }

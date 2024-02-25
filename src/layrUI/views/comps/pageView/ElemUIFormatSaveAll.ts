@@ -9,20 +9,27 @@ import {ResultFull} from "../../../../layrCore/ResultData/ResultFull";
 import {ElemBaseSave} from "../../../../layrCore/elems/elemBase/ElemBaseSave";
 import {ElemBaseDynamic} from "../../../../layrCore/elems/elemBase/ElemBaseDynamic";
 import {srcUpdateRun} from "../../../../layrCore/src/srcUpdateRun";
+import {layrCoreStore} from "../../../../layrCore/LayrCoreStore";
 
-export function elemUIFormatSaverAll(ResultFullChild: ResultFull<ElemBaseSave, ElemBaseDynamic>, elemFormats: { elemFormatData: string, elemFormatsEnums: ElemFormatsEnums }[]): void {
-
-    let resultFull2: ResultFull<ElemBaseSave, ElemBaseDynamic> = JSON.parse(JSON.stringify(ResultFullChild))
+export async function elemUIFormatSaverAll(ResultFullChild: ResultFull<omap<ElemBaseSave>, omap<ElemBaseDynamic>>, elemId: string, elemFormats: { elemFormatData: string, elemFormatsEnums: ElemFormatsEnums }[]): Promise<void> {
+    
+    let resultFullModified: ResultFull<omap<ElemBaseSave>, omap<ElemBaseDynamic>> = JSON.parse(JSON.stringify(ResultFullChild))
 
     elemFormats.forEach((value, index) => {
 
         let saveValue = omf.get(ElemFormatsData, value.elemFormatsEnums).setFunction(value.elemFormatData)
-        omf.set(resultFull2.resultSave.elemFormat, value.elemFormatsEnums, saveValue)
+        omf.set(omf.get(resultFullModified.resultSave, elemId).elemFormat, value.elemFormatsEnums, saveValue)
 
 
     })
 
+    let resultFullParent = layrCoreStore.resultFullDataArray.find(value => {
+        return value.resultId === ResultFullChild.parentResultId
 
-    srcUpdateRun(ResultFullChild, resultFull2.resultSave)
+    })
+    if (!resultFullParent) return
+
+
+    await srcUpdateRun(resultFullParent.resultId, ResultFullChild.parentElemId, ResultFullChild.parentSrcId, resultFullModified.resultSave)
 
 }

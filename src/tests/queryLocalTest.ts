@@ -1,4 +1,4 @@
-import {layrQueryCommands} from "../layrQuery/layrQueryCommands";
+import {layrQueryRun} from "../layrQuery/layrQueryRun";
 import {QueryEnums} from "../layrQuery/types/queryEnums";
 import {querySourceLocalRequestType} from "../layrQuery/querySources/local/querySourceLocalRequestType";
 import {querySourceLocalSubTypeEnums} from "../layrQuery/querySources/local/querySourceLocalSubTypeEnums";
@@ -19,7 +19,7 @@ async function createtest() {
             srcActionType: crudEnums.create, newData: testdata.db,
             subType: querySourceLocalSubTypeEnums.database
         }
-        console.log("1. create local db", await layrQueryCommands.run({
+        console.log("1. create local db", await layrQueryRun({
             type: QueryEnums.local,
             requestData: localreqdb
         }))
@@ -29,7 +29,7 @@ async function createtest() {
             dbId: testdata.db, srcActionType: crudEnums.create, newData: testdata.store,
             subType: querySourceLocalSubTypeEnums.store
         }
-        console.log("2. create local table", await layrQueryCommands.run({
+        console.log("2. create local table", await layrQueryRun({
             type: QueryEnums.local,
             requestData: localreqtable
         }))
@@ -41,7 +41,7 @@ async function createtest() {
             storeId: testdata.store,
             newData: {test: testdata.doc, db: testdata.db}
         }
-        console.log("3. create local doc", await layrQueryCommands.run({
+        console.log("3. create local doc", await layrQueryRun({
             type: QueryEnums.local,
             requestData: localreqdoc
         }))
@@ -58,14 +58,14 @@ async function gettest(testdata: { db: string, store: string, doc: string }) {
         subType: querySourceLocalSubTypeEnums.database,
         srcActionType: crudEnums.get
     }
-    console.log("1. get local dbs", await layrQueryCommands.run({type: QueryEnums.local, requestData: localreqdb}))
+    console.log("1. get local dbs", await layrQueryRun({type: QueryEnums.local, requestData: localreqdb}))
 
 
     let localreqtable: querySourceLocalRequestType = {
         subType: querySourceLocalSubTypeEnums.store,
         dbId: testdata.db, srcActionType: crudEnums.get
     }
-    console.log("2. get local stores", await layrQueryCommands.run({
+    console.log("2. get local stores", await layrQueryRun({
         type: QueryEnums.local,
         requestData: localreqtable
     }))
@@ -73,12 +73,12 @@ async function gettest(testdata: { db: string, store: string, doc: string }) {
         subType: querySourceLocalSubTypeEnums.doc,
         dbId: testdata.db, srcActionType: crudEnums.get, storeId: testdata.store
     }
-    console.log("3. get local docs", await layrQueryCommands.run({type: QueryEnums.local, requestData: localreqdoc}))
+    console.log("3. get local docs", await layrQueryRun({type: QueryEnums.local, requestData: localreqdoc}))
     let localreqdocObject: querySourceLocalRequestType = {
         subType: querySourceLocalSubTypeEnums.docObject,
         dbId: testdata.db, srcActionType: crudEnums.get, storeId: testdata.store, docId: 1
     }
-    console.log("4. get local docobject", await layrQueryCommands.run({
+    console.log("4. get local docobject", await layrQueryRun({
         type: QueryEnums.local,
         requestData: localreqdocObject
     }))

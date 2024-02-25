@@ -5,7 +5,7 @@ import {omf} from "../../../../lib/omf";
 import {PropertiesTypesOmap} from "./propertiesTypesOmap";
 import {PropertiesTypes} from "./propertiesTypes";
 
-export function createEditor(getPropertyType: Accessor<PropertiesTypes>, saveEvent: TypedEvent<any>, saveFunc: (data: object) => any) {
+export function createEditor(saveEvent: TypedEvent<any>, saveFunc: (data: object) => any) {
     let monacoElem = document.createElement("div")
     monacoElem.style.backgroundColor = "blue"
     monacoElem.style.height = "100%"

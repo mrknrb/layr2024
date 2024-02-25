@@ -13,9 +13,11 @@ import {QuerySchema} from "../src/querySchema";
 import {querySourceLocalRequestType} from "../../layrQuery/querySources/local/querySourceLocalRequestType";
 import {srcActionDefaultNames} from "../src/srcActionDefaultNames";
 import {ElemFormatsEnums} from "../../layrUI/views/comps/pageView/elemUIs/elemFormatsEnums";
+import {omap} from "../../lib/omap";
+import {DefaultPointerEnums} from "../functions/generic/DefaultPointerEnums";
 
 // --- A localra mentett elem-ek parentje, így tudod kezelni és szerkeszteni ---
-export function RootResultFullFactory_LocalParent(rootDocId: string): ResultFull<ElemGroupSave, ElemGroupDynamic> {
+export function RootResultFullFactory_LocalParent(rootDocId: string): ResultFull<omap<ElemGroupSave>, omap<ElemGroupDynamic>> {
     let q1: QuerySchema<querySourceLocalRequestType> = {
         sourceType: QueryEnums.local,
         requestDataStatic: {
@@ -40,10 +42,10 @@ export function RootResultFullFactory_LocalParent(rootDocId: string): ResultFull
         resultType: ResultTypes.layrElem,
         resultId: "0",
 
-        resultSave: {
+        resultSave: omf.set(omf.create(), "root", {
             elemFormat: omf.create({[ElemFormatsEnums.fullScreen]: ""}),
             elemType: ElemTypes.group,
-            srcPointers: {elems: "0"},
+            srcPointers: omf.set(omf.create(), DefaultPointerEnums.elems, "0"),
             srcSaveList: omf.set(omf.create(), "0", {
                 resultType: ResultTypes.layrElem,
                 srcActionList: [{
@@ -58,7 +60,7 @@ export function RootResultFullFactory_LocalParent(rootDocId: string): ResultFull
                 }
                 ]
             })
-        }
+        })
     }
 }
 

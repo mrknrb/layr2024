@@ -1,0 +1,1 @@
+export type ResultAllIdType = { resultId: string, elemId?: string, srcId?: string }

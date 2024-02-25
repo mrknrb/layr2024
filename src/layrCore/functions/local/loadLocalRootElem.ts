@@ -1,5 +1,5 @@
 import {RootResultFullFactory_LocalParent} from "../../static/RootResultFullFactory_LocalParent";
-import {loadResultFullElem} from "../../ResultData/loadResultFullElem";
+import {loadResultFullAllElemsAllPointers} from "../../ResultData/loadResultFullAllElemsAllPointers";
 import {newResultFull} from "../../ResultData/newResultFull";
 import {ResultTypes} from "../../ResultData/ResultTypes";
 import {MrkLib} from "../../../lib/MrkLib";

@@ -8,13 +8,14 @@ import {querySchemaRun} from "../functions/querySchemaRun";
 import {layrCoreStore} from "../LayrCoreStore";
 import {MrkLib} from "../../lib/MrkLib";
 import {newResultFull} from "./newResultFull";
-import {loadResultFullElem} from "./loadResultFullElem";
+import {loadResultFullAllElemsAllPointers} from "./loadResultFullAllElemsAllPointers";
+import {omap} from "../../lib/omap";
 
-export async function loadRecursivelyResultFullElem<resultSaveType extends ElemBaseSave, resultDynamicType extends ElemBaseDynamic>(resultFull: ResultFull<resultSaveType, resultDynamicType>) {
+export async function loadRecursivelyResultFullElem(resultFull: ResultFull<omap<ElemBaseSave>, omap<ElemBaseDynamic>>) {
 
 
     if (!resultFull) return
-    await loadResultFullElem(resultFull)
+    await loadResultFullAllElemsAllPointers(resultFull)
 
     let childResults = layrCoreStore.resultFullDataArray.filter(value => {
         return value.parentResultId === resultFull.resultId

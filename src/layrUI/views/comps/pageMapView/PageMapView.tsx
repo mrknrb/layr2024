@@ -9,9 +9,10 @@ import {
 } from "../../../general/viewElements/VerticalBar/VerticalBar_MenuElemData";
 import GroupElemUI from "../pageView/elemUIs/GroupElem/GroupElemUI";
 import PageMapListElem from "./PageMapListElem";
+import {getRootElem} from "../../../../layrCore/ResultData/getRootElem";
 
 export default function PageMapView() {
-    let root = layrCoreCommands.getRootElem()
+    let root = getRootElem()
 
 
     return (
@@ -19,7 +20,7 @@ export default function PageMapView() {
             <VerticalBar MenuElems={[]} settings={{}}></VerticalBar>
 
 
-            <div class="mrkScroll  ">
+            <div class=" relative ">
                 <Show when={root}>
                     <PageMapListElem groupElemFull={root}></PageMapListElem>
 

@@ -6,19 +6,15 @@ import {ElemGroupDynamic} from "../../../../layrCore/elems/elemGroup/ElemGroupDy
 import {ElemGroupSave} from "../../../../layrCore/elems/elemGroup/ElemGroupSave";
 import {ResultFull} from "../../../../layrCore/ResultData/ResultFull";
 import BaseElemUI from "./elemUIs/BaseElem/BaseElemUI";
+import {getRootElem} from "../../../../layrCore/ResultData/getRootElem";
 
 export default function PageView() {
-    let [getRoot, setRoot] = createSignal<ResultFull<ElemGroupSave, ElemGroupDynamic>>()
 
-    layrCoreCommands.getRootElem().then(value => {
-        setRoot(value)
-
-    })
 
     return (
         <div class="mrkScroll bg-green-800 ">
-            <Show when={getRoot()}>
-                <BaseElemUI resultFull={getRoot()}></BaseElemUI>
+            <Show when={getRootElem()}>
+                <BaseElemUI resultFull={getRootElem()} elemId="root"></BaseElemUI>
             </Show>
 
 

@@ -1,26 +1,33 @@
 import {ResultFull} from "../../../../layrCore/ResultData/ResultFull";
 import {ElemGroupSave} from "../../../../layrCore/elems/elemGroup/ElemGroupSave";
 import {ElemGroupDynamic} from "../../../../layrCore/elems/elemGroup/ElemGroupDynamic";
-import {For, Show} from "solid-js";
+import {createEffect, createSignal, For, Show} from "solid-js";
 import {menuOptionsStatic} from "../../../menu/MenuOptionsStatic";
 import {layrUIStore} from "../../../LayrUIStore";
 import {layrCoreStore} from "../../../../layrCore/LayrCoreStore";
 import {layrCoreCommands} from "../../../../layrCore/LayrCoreCommands";
 import {JsonDataTree} from "../../../general/viewElements/TreeBrowser/JsonDataTree";
 import TreeBrowser from "../../../general/viewElements/TreeBrowser/TreeBrowser";
+import {MrkLib} from "../../../../lib/MrkLib";
+import {omap} from "../../../../lib/omap";
+import {omf} from "../../../../lib/omf";
+import {ResultAllIdType} from "../../../../layrCore/ResultData/ResultAllIdType";
+import {ElemBaseSave} from "../../../../layrCore/elems/elemBase/ElemBaseSave";
+import {ElemBaseDynamic} from "../../../../layrCore/elems/elemBase/ElemBaseDynamic";
+import {setSelectedIds} from "../../../../layrCore/functions/setSelectedIds";
 
 export default function PageMapListElem(props: { groupElemFull: ResultFull<ElemGroupSave, ElemGroupDynamic> }) {
-
-    let childResults = layrCoreStore.resultFullDataArray.filter(value => {
-        return value.parentResultId === props.groupElemFull.resultId
+    let [geti, seti] = createSignal(JsonTreeDataMaker("0"))
+    createEffect(v => {
+        layrCoreStore
+        seti(JsonTreeDataMaker("0"))
 
     })
-    let i = JsonTreeDataMaker("0")
 
     return (
         <div class="   ">
-            <Show when={i}>
-                <TreeBrowser jsonTree={[i]}></TreeBrowser>
+            <Show when={geti()}>
+                <TreeBrowser jsonTree={[geti()]}></TreeBrowser>
 
             </Show>
 
@@ -29,46 +36,87 @@ export default function PageMapListElem(props: { groupElemFull: ResultFull<ElemG
     )
 }
 
+function backgroundColor(resultActual: ResultFull, omapSelected: omap<string, string>) {
+
+    if (omf.get(omapSelected, resultActual.resultId)) {
+
+        return "#4d4d4d"
+    } else {
+        return ""
+    }
+
+}
+
 function JsonTreeDataMaker(startResultFullId: string) {
     let startResult = layrCoreStore.resultFullDataArray.find(value => {
         return value.resultId === startResultFullId;
     });
 
+
     if (!startResult) return;
 
-    return loop(startResult);
+    return srcLoop(startResult);
 
-    function loop(resultActual?: ResultFull<any, any>) {
+    function srcLoop(resultActual: ResultFull<omap<ElemBaseSave>, omap<ElemBaseDynamic>>) {
         if (!resultActual) return;
-        let jsonTreeActual: JsonDataTree<ResultFull<any, any>> = {
-            name: resultActual.resultId, onClickArgs: resultActual,
-            children: [], onClick: (dataTree, onClickArgs) => {
-                layrCoreCommands.setSelectedResultIds([onClickArgs.resultId])
-
-
+        if (!resultActual.resultSave) return
+        let jsonTreeActualElem: JsonDataTree<ResultAllIdType> = {
+            name: "parentSrc:  " + resultActual.parentSrcId + "   result:  " + resultActual.resultId,
+            onClickArgs: {
+                resultId: resultActual.resultId,
+                elemId: resultActual.parentElemId,
+                srcId: resultActual.parentSrcId
+            },
+            backgroundColor: "#731f1f",// backgroundColor(resultActual, omapSelected),
+            children: [],
+            onClick: (dataTree, onClickArgs) => {
+                setSelectedIds([onClickArgs])
             }
         };
 
-        let childResults = layrCoreStore.resultFullDataArray.filter(value => {
-            return value.parentResultId === resultActual.resultId;
-        });
-
-        if (childResults.length === 0) return jsonTreeActual;
-
-        jsonTreeActual.children = [];
-
-        childResults.forEach(childResult => {
-
-
-            let child = loop(childResult);
+        omf.forEach(resultActual.resultSave, (elem, elemId) => {
+            let child = elemLoop(resultActual, elemId);
             if (child) {
-                jsonTreeActual.children.push(child);
+                jsonTreeActualElem.children.push(child);
             }
-        });
 
-        return jsonTreeActual;
+        })
+        return jsonTreeActualElem;
     }
 
+    function elemLoop(resultActual: ResultFull<omap<ElemBaseSave>, omap<ElemBaseDynamic>>, elemId: string) {
+
+        if (!resultActual) return;
+        if (!resultActual.resultSave) return
+        let jsonTreeActualElem: JsonDataTree<ResultAllIdType> = {
+            name: elemId,
+            onClickArgs: {resultId: resultActual.resultId, elemId},
+            backgroundColor: "#27731f",// backgroundColor(resultActual, omapSelected),
+            children: [],
+            onClick: (dataTree, onClickArgs) => {
+                setSelectedIds([onClickArgs])
+            }
+        };
+
+        omf.forEach(omf.get(resultActual.resultSave, elemId).srcSaveList, (srcSave, srcId) => {
+
+            let childresult = layrCoreStore.resultFullDataArray.find((value, index) => {
+                return value.parentResultId === resultActual.resultId && value.parentSrcId === srcId
+
+
+            })
+
+            if (!childresult) return
+            let child = srcLoop(childresult);
+            if (child) {
+                jsonTreeActualElem.children.push(child);
+            }
+
+        })
+        return jsonTreeActualElem;
+
+
+    }
 
 }
 

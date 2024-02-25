@@ -5,7 +5,7 @@ import {omf} from "../../lib/omf";
 
 export default function PanelButton(props: { menuItem: ViewEnums, PanelType: PanelEnums }) {
 
-    let rotetedcss = () => {
+    let rotatedCss = () => {
         if (props.PanelType === PanelEnums.leftPanel) {
             return ' writing-mode: tb-rl;	transform: rotate(-180deg); '
         } else if (props.PanelType === PanelEnums.rightPanel) {
@@ -24,7 +24,7 @@ export default function PanelButton(props: { menuItem: ViewEnums, PanelType: Pan
     return (
 
 
-        <div style={rotetedcss()} class={"text-gray-300 mrkHoverClick font-bold select-none  p-1" + visibleBG()}
+        <div style={rotatedCss()} class={"text-gray-300 mrkHoverClick font-bold select-none  p-1" + visibleBG()}
              onclick={() => {
                  layrUIStoreUpdater.updateStore((storeCopy, storeUpdatedResult) => {
                      omf.get(storeCopy.views, props.menuItem).visible = !omf.get(storeCopy.views, props.menuItem).visible
